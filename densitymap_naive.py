@@ -7,6 +7,7 @@ Created on 06 Jul 2016
 import numpy as np
 from pyDOE import lhs
 import time
+from scipy.interpolate import interp1d
 
 
 class DensityMapNaive(object):
@@ -16,6 +17,12 @@ class DensityMapNaive(object):
         self.gen = 'hammersley'
         if image is not None:
             self.set_image(image)
+
+        self.qt = None
+        self.t = None   # Variables for charge distribution in time
+        self.t_int = None
+
+        self.set_time_uniform(6e-12)
 
         self.saved_primes = np.array([2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53,
                         59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137,
@@ -37,7 +44,7 @@ class DensityMapNaive(object):
         max_p = image.max()
         self.image = image/max_p
 
-    def set_gaussian(self, sigma, size):
+    def set_transverse_gaussian(self, sigma, size):
         """ Generate a gaussian image for use as an electron distribution
 
         :param sigma: sigma of the gaussian
@@ -49,7 +56,7 @@ class DensityMapNaive(object):
         image = np.outer(y, y)
         self.set_image(image)
 
-    def set_tophat(self, radius, size):
+    def set_transverse_tophat(self, radius, size):
         """
         Generate a top hat image for use as an electron distribution
 
@@ -64,6 +71,16 @@ class DensityMapNaive(object):
         good_ind = xm**2 + ym**2 < radius**2
         image[good_ind] = 1
         self.image = image
+
+    def set_time_uniform(self, dt):
+        t_rise = dt / 10
+        nt = 1000
+        nt_rise = nt / 10
+        self.t = np.linspace(-dt/2, dt/2, nt)
+        self.qt = np.ones_like(self.t)
+        self.qt[0:nt_rise] = np.linspace(0, 1, nt_rise)
+        self.qt[nt-nt_rise:] = np.linspace(1, 0, nt_rise)
+        self.t_int = interp1d(self.t, self.qt)
 
     def generate_hammersley(self, n_points, start=0,  n_dim=2):
         """
@@ -150,6 +167,31 @@ class DensityMapNaive(object):
             y = random_vec[1, :] * self.image.shape[1]
             pr = np.random.random(n_rem)
             good_ind = self.image[x.astype(np.int), y.astype(np.int)] > pr
+            particles_tmp = np.array((x[good_ind], y[good_ind]))
+            start += n_rem
+            n_rem -= particles_tmp.shape[1]
+            particles = np.hstack((particles, particles_tmp))
+            print start
+        return particles[:, 1:]
+
+    def generate_particles_6d(self, n):
+        n_rem = n
+        particles = np.zeros((6, 1))
+        start = 0
+        while n_rem > 0:
+            if self.gen == 'hammersley':
+                random_vec = self.generate_hammersley(n_rem, start, 6)
+            elif self.gen == 'qr':
+                random_vec = self.generate_quasi_random(n_rem, 6)
+            else:
+                random_vec = np.random.random((6, n_rem))
+            x = random_vec[0, :] * self.image.shape[0]
+            y = random_vec[1, :] * self.image.shape[1]
+            t = random_vec[2, :] * (self.t.max() - self.t_min())
+            # Total density is the product of the density in independent dimensions:
+            point_density = self.image[x.astype(np.int), y.astype(np.int)] * self.t_int[t]
+            pr = np.random.random(n_rem)
+            good_ind = point_density > pr
             particles_tmp = np.array((x[good_ind], y[good_ind]))
             start += n_rem
             n_rem -= particles_tmp.shape[1]
