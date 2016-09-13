@@ -8,6 +8,17 @@ import numpy as np
 from pyDOE import lhs
 import time
 from scipy.interpolate import interp1d
+import scipy.optimize as so
+import logging
+
+logger = logging.getLogger()
+while logger.handlers:
+    logger.removeHandler(logger.handlers[0])
+f = logging.Formatter("%(asctime)s - %(module)s. %(levelname)s - %(message)s")
+fh = logging.StreamHandler()
+fh.setFormatter(f)
+logger.addHandler(fh)
+logger.setLevel(logging.DEBUG)
 
 
 class DensityMapNaive(object):
@@ -22,16 +33,21 @@ class DensityMapNaive(object):
         self.t = None   # Variables for charge distribution in time
         self.t_int = None
 
+        self.F1 = None
+        self.F1_interp = None
+        self.image_cdf = None
+        self.image = None
+
         self.set_time_uniform(6e-12)
 
         self.saved_primes = np.array([2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53,
-                        59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137,
-                        139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223,
-                        227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307,
-                        311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397,
-                        401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487,
-                        491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593,
-                        599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659])
+                                      59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137,
+                                      139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223,
+                                      227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307,
+                                      311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397,
+                                      401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487,
+                                      491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593,
+                                      599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659])
 
     def set_image(self, image):
         """
@@ -81,6 +97,40 @@ class DensityMapNaive(object):
         self.qt[0:nt_rise] = np.linspace(0, 1, nt_rise)
         self.qt[nt-nt_rise:] = np.linspace(1, 0, nt_rise)
         self.t_int = interp1d(self.t, self.qt)
+
+    def generate_cdf(self):
+        """
+        Generate the cumulative distribution function from the stored image.
+        :return:
+        """
+        self.image_cdf = self.image.cumsum(0).cumsum(1)
+        self.image_cdf /= self.image_cdf.max()
+        self.F1 = self.image.sum(1).cumsum()
+        self.F1 /= self.F1.max()
+        x = np.arange(self.F1.shape[0])
+        self.F1_interp = interp1d(x, self.F1)
+
+    def sample_cdf(self, x):
+        xi_1 = (self.F1 >= x[0]).searchsorted(True)
+        F2 = self.image[xi_1, :].cumsum()
+        xi_2 = (F2 / F2.max() >= x[1]).searchsorted(True)
+        return np.array([xi_1, xi_2])
+
+    def sample_cdf_interp(self, x):
+        xi_high = (self.F1 > x[0]).searchsorted(True)
+        dfdx = self.F1[xi_high] - self.F1[xi_high - 1]  # dx = 1
+        df = self.F1[xi_high] - x[0]
+        dx = df / dfdx
+        xi_1 = xi_high - dx
+
+        F2 = self.image[xi_high, :].cumsum()
+        F2 /= F2.max()
+        xi_high = (F2 > x[1]).searchsorted(True)
+        dfdy = F2[xi_high] - F2[xi_high - 1]  # dx = 1
+        df = F2[xi_high] - x[1]
+        dy = df / dfdy
+        xi_2 = xi_high - dy
+        return np.array([xi_1, xi_2])
 
     def generate_hammersley(self, n_points, start=0,  n_dim=2):
         """
@@ -201,6 +251,15 @@ class DensityMapNaive(object):
 
 if __name__ == '__main__':
     dm = DensityMapNaive()
-    dm.set_gaussian(20, 100)
+    dm.set_transverse_gaussian(20, 100)
+    dm.generate_cdf()
+    n = 10000
+    points = dm.generate_hammersley(n)
+    d = []
+    t0 = time.time()
+    for k in range(points.shape[1]):
+        d.append(dm.sample_cdf_interp(points[:, k]))
+    d = np.array(d).transpose()
+    logging.info('Generated {0} points in {1} s'.format(n, time.time() - t0))
     # dm.set_tophat(20, [100, 100])
     # p = dm.generate_particles(10000)
