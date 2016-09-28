@@ -184,7 +184,11 @@ class DensityMapNaive(object):
         self.E0 = Ef+phi_eff #-E_photon
         self.E_max = Ef + E_photon
         self.theta_max = theta_max.max()
-        self.image_fd = (theta_m < theta_max_m).astype(np.double)
+        self.theta = theta
+        self.E = E
+        self.image_fd = (theta_m < theta_max_m).astype(np.double) * np.sin(theta_m)
+        # Or should it be
+        # self.image_fd = (theta_m < theta_max_m).astype(np.double)
 
         self.image_fd_cdf = self.image_fd.cumsum(0).cumsum(1)
         self.image_fd_cdf /= self.image_fd_cdf.max()
@@ -311,6 +315,7 @@ class DensityMapNaive(object):
         qe = 1.602e-19
         c = 299792458.0
         for k in range(px_data.shape[0]):
+            # First sample energy
             # Find first index where 1d cdf curve is larger than sample:
             pxi_high = (self.F1_fd > px_data[k, 0]).searchsorted(True)
             # Do linear interpolation:
@@ -326,7 +331,7 @@ class DensityMapNaive(object):
             pxi_high = (F2_fd > px_data[k, 1]).searchsorted(True)
             dfdpy = F2_fd[pxi_high] - F2_fd[pxi_high - 1]  # dx = 1
             df = F2_fd[pxi_high] - px_data[k, 1]
-            dpy = np.maximum(1.0, df / (dfdpy + eps))
+            dpy = np.minimum(1.0, df / (dfdpy + eps))
             pxi_2 = np.maximum(0.0, pxi_high - dpy)
 
             pxi_3 = 2*np.pi*px_data[k, 2]

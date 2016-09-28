@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70fc96b1-a189-45cc-aeab-c05ed73940f1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/densitymap.iml" afterPath="$PROJECT_DIR$/.idea/densitymap.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/densitymap_naive.py" afterPath="$PROJECT_DIR$/densitymap_naive.py" />
     </list>
@@ -29,8 +27,8 @@
       <file leaf-file-name="densitymap_naive.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/densitymap_naive.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="913">
-              <caret line="589" column="20" selection-start-line="589" selection-start-column="20" selection-end-line="589" selection-end-column="20" />
+            <state relative-caret-position="3109">
+              <caret line="332" column="48" selection-start-line="332" selection-start-column="48" selection-end-line="332" selection-end-column="48" />
               <folding>
                 <element signature="e#55#73#0" expanded="true" />
               </folding>
@@ -41,14 +39,9 @@
       <file leaf-file-name="PyAstra.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../astra/src/PyAstra.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8898">
+            <state relative-caret-position="5627">
               <caret line="338" column="27" selection-start-line="338" selection-start-column="27" selection-end-line="349" selection-end-column="43" />
-              <folding>
-                <marker date="1474292285474" expanded="true" signature="261:384" placeholder="..." />
-                <marker date="1474292285474" expanded="true" signature="420:629" placeholder="..." />
-                <marker date="1474292285474" expanded="true" signature="12911:17509" placeholder="..." />
-                <marker date="1474292285474" expanded="true" signature="18639:34407" placeholder="..." />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -67,9 +60,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1241" />
-    <option name="y" value="2" />
-    <option name="width" value="1239" />
+    <option name="x" value="-1930" />
+    <option name="width" value="1163" />
     <option name="height" value="1153" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -135,8 +127,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -297,13 +289,12 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1241" y="2" width="1239" height="1153" extended-state="0" />
+    <frame x="-1930" y="0" width="1163" height="1153" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19787408" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21098518" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32944915" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -316,6 +307,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32944915" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -348,21 +340,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../astra/src/PyAstra.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8898">
+        <state relative-caret-position="5627">
           <caret line="338" column="27" selection-start-line="338" selection-start-column="27" selection-end-line="349" selection-end-column="43" />
-          <folding>
-            <marker date="1474292285474" expanded="true" signature="261:384" placeholder="..." />
-            <marker date="1474292285474" expanded="true" signature="420:629" placeholder="..." />
-            <marker date="1474292285474" expanded="true" signature="12911:17509" placeholder="..." />
-            <marker date="1474292285474" expanded="true" signature="18639:34407" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/densitymap_naive.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="913">
-          <caret line="589" column="20" selection-start-line="589" selection-start-column="20" selection-end-line="589" selection-end-column="20" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#55#73#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../astra/src/PyAstra.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5627">
+          <caret line="338" column="27" selection-start-line="338" selection-start-column="27" selection-end-line="349" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/densitymap_naive.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3109">
+          <caret line="332" column="48" selection-start-line="332" selection-start-column="48" selection-end-line="332" selection-end-column="48" />
           <folding>
             <element signature="e#55#73#0" expanded="true" />
           </folding>
