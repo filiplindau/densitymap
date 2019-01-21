@@ -11,6 +11,7 @@ import time
 from scipy.interpolate import interp1d
 import scipy.optimize as so
 import logging
+from matplotlib.pyplot import imread
 
 logger = logging.getLogger()
 while logger.handlers:
@@ -58,11 +59,13 @@ class DensityMapNaive(object):
         self.energies = None   # Variables for charge distribution in time
         self.energy_int = None
         self.energy_cdf = None
+        self.charge = 100e-12
 
         self.set_time_uniform(6e-12, 60e-15)
         self.set_transverse_gaussian(1.0e-3, 20e-5, 200)
         self.set_transverse_momentum_gaussian(1.0e-3, 20e-5, 200)
         self.set_energy_gaussian(0.5, 1.0, 0.001)
+        self.set_charge(100e-12)
 
         self.halton_sequencer = None
         self.saved_primes = np.array([2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53,
@@ -81,9 +84,11 @@ class DensityMapNaive(object):
         :param image: 2D numpy array density map
         :return: nothing
         """
-        self.size = image.shape
-        max_p = image.max()
-        self.image = image/max_p
+        pic = image.transpose()
+        self.size = pic.shape
+
+        max_p = pic.max()
+        self.image = pic/max_p
         self.generate_x_cdf()
 
     def set_momentum_image(self, image):
@@ -106,6 +111,8 @@ class DensityMapNaive(object):
         :param image_size: scalar number of pixels in each direction
         :return: nothing
         """
+        logger.info("Setting transverse gaussian: sigma={0}, pixel resolution={1}, "
+                    "image size={2}".format(sigma, pixel_resolution, image_size))
         x = np.arange(-image_size/2, image_size/2, dtype=np.int64) * pixel_resolution
         y = np.exp(-(x/np.double(sigma))**2)
         self.image_pixel_resolution = pixel_resolution
@@ -120,6 +127,7 @@ class DensityMapNaive(object):
         :param size: 2 element vector for the image dimensions
         :return:
         """
+        logger.info("Setting transverse top hat: radius={0}, image size={1}".format(radius, size))
         image = np.zeros(size)
         x = np.arange(-size[0] / 2, size[0] / 2, dtype=np.int64)
         y = np.arange(-size[1] / 2, size[1] / 2, dtype=np.int64)
@@ -128,10 +136,17 @@ class DensityMapNaive(object):
         image[good_ind] = 1
         self.set_image(image)
 
+    def set_transverse_image(self, image, pixel_resolution):
+        logger.info("Setting transverse image: resolution={0}".format(pixel_resolution))
+        self.image_pixel_resolution = pixel_resolution
+        self.set_image(image)
+
     def set_time_uniform(self, time_duration, time_resolution):
+        logger.info("Setting uniform time distribution: duration={0}, time resolution={1}".format(time_duration,
+                                                                                                  time_resolution))
         t_rise = time_duration / 10
         nt_rise = np.int(t_rise / time_resolution)
-        nt = np.int(1.2 * time_duration / time_resolution + 2 * nt_rise)
+        nt = np.int(1.0 * time_duration / time_resolution + 2 * nt_rise)
         self.time_resolution = time_resolution
         self.t = time_resolution * (np.arange(nt) - np.double(nt) / 2)
         self.time_structure = np.ones_like(self.t)
@@ -140,12 +155,15 @@ class DensityMapNaive(object):
         self.generate_t_cdf()
 
     def set_time_gaussian(self, sigma, time_window, time_resolution=10e-15):
+        logger.info("Setting gaussian time distribution: sigma={0}, "
+                    "time window={1}, time resolution={2}".format(sigma, time_window, time_resolution))
         self.time_resolution = time_resolution
         self.t = np.arange(-time_window/2, time_window, time_resolution)
         self.time_structure = np.exp(-self.t**2 / sigma**2)
         self.generate_t_cdf()
 
     def set_time_structure(self, time_structure, time_resolution=10e-15):
+        logger.info("Setting arbitrary time structure: time resolution={0}".format(time_resolution))
         self.time_resolution = time_resolution
         self.time_structure = time_structure
         self.t = time_resolution * (np.arange(0, time_structure.shape[0]) - time_structure.shape[0]/2)
@@ -159,6 +177,8 @@ class DensityMapNaive(object):
         :param schottky_field: Average electric field at cathode at time of emission in MV/m
         :return:
         """
+        logger.info("Setting momentum to Fermi dirac distribution: "
+                    "E_photon={0}, phi_work={1}, Schottky field={2}".format(E_photon, phi_work, schottky_field))
         me = 9.11e-31
         c = 299792458.0
         qe = 1.602e-19
@@ -222,6 +242,10 @@ class DensityMapNaive(object):
         self.energy_structure = np.exp(-self.energies**2 / sigma**2)
         self.generate_energy_cdf()
 
+    def set_charge(self, charge):
+        logger.info("Setting total beam charge: {0} pC".format(charge*1e12))
+        self.charge = charge
+
     def generate_x_cdf(self):
         """
         Generate the cumulative distribution function from the stored image.
@@ -262,7 +286,7 @@ class DensityMapNaive(object):
         xi_1 = (self.F1 >= x[0]).searchsorted(True)
         F2 = self.image[xi_1, :].cumsum()
         xi_2 = (F2 / F2.max() >= x[1]).searchsorted(True)
-        return np.array([xi_1, xi_2])
+        return np.array([xi_1, xi_2]) * self.image_pixel_resolution
 
     def sample_x_cdf_interp(self, x_n):
         """
@@ -277,6 +301,9 @@ class DensityMapNaive(object):
             x_data = x_n.reshape(1, -1)
         else:
             x_data = x_n
+        # Center coordinates:
+        x0 = self.image_pixel_resolution * self.image.shape[0] / 2.0
+        y0 = self.image_pixel_resolution * self.image.shape[1] / 2.0
         # Loop through particles
         xi = []
         for k in range(x_data.shape[0]):
@@ -294,7 +321,10 @@ class DensityMapNaive(object):
             dy = df / dfdy
             xi_2 = xi_high - dy
             xi.append(np.array([xi_1, xi_2]))
-        return np.array(xi)
+        p = np.array(xi) * self.image_pixel_resolution
+        p[:, 0] = p[:, 0] - x0
+        p[:, 1] = p[:, 1] - y0
+        return p
 
     def sample_fermi_dirac_cdf_interp(self, px_n):
         """
@@ -387,7 +417,7 @@ class DensityMapNaive(object):
             dpy = df / dfdpy
             pxi_2 = pxi_high - dpy
             pxi.append(np.array([pxi_1, pxi_2]))
-        return np.array(pxi)
+        return np.array(pxi) * self.momentum_image_pixel_resolution
 
     def sample_t_cdf_interp(self, t_n):
         """
@@ -585,13 +615,42 @@ class DensityMapNaive(object):
         particles = np.hstack((x, t, p))
         return particles
 
+    def save_astra_distribution(self, filename, n_part):
+        logger.info("Saving {0} particle distribution to {1}".format(n_part, filename))
+        p = self.generate_particles_6d_cdf(n_part)
+        p_astra = np.zeros((n_part, 10))
+        p_astra[:, 0:2] = p[:, 0:2]         # Transverse data. z=0 for particles generated at cathode.
+        p_astra[:, 3:6] = p[:, 3:6]         # Momentum data
+        p_astra[:, 6] = p[:, 2] * 1e9       # Time data in ns
+        p_astra[:, 7] = self.charge / n_part * 1e9    # Charge per particle in nC
+        p_astra[:, 8] = 1                   # Particle index: electrons
+        p_astra[:, 9] = -1                  # Status flag: standard particle
+        # Reference particle:
+        p_astra[0, 0:3] = np.array([0.0, 0.0, 0.0])
+        p_astra[0, 3:6] = np.array([0.0, 0.0, 0.0])
+        p_astra[0, 6] = 0.0
+        p_astra[0, 7] = self.charge / n_part
+        p_astra[0, 8] = 1
+        p_astra[0, 9] = -1
+
+        fs = '%1.12E  %1.12E  %1.12E  %1.12E  %1.12E  %1.12E  %1.12E  %1.12E  %d  %d'
+        np.savetxt(filename, p_astra, fmt=fs)
+        logger.debug("Distribution saved.")
+
 
 if __name__ == '__main__':
     dm = DensityMapNaive()
     dm.set_transverse_gaussian(1.0e-3, 20e-6)
     dm.set_momentum_fermi_dirac(4.71, 4.46, 0)
-    n = 20000
+    n = 200000
     t0 = time.time()
     dm.gen = 'halton'
     p = dm.generate_particles_6d_cdf(n)
     logging.info('Generated {0} particles in {1} s'.format(n, time.time() - t0))
+    dm.save_astra_distribution("gaussian_gen.ini", n)
+
+    image = imread("diffuser_0p15deg_500mm_lens_1-1imaging_iris_closed_cal18p5um_0_crop.png")[:, :, 0]
+    dm.set_transverse_image(image, 18.5e-6)
+    pi = dm.generate_particles_6d_cdf(n)
+    logging.info('Generated {0} particles in {1} s'.format(n, time.time() - t0))
+    dm.save_astra_distribution("image_gen.ini", n)
