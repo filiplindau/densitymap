@@ -1,0 +1,5 @@
+*.txt
+*.png
+*.pyc
+*.ini
+.idea/

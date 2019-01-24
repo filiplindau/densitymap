@@ -33,7 +33,7 @@ class DensityMapNaive(object):
         self.image_cdf = None
         self.gen = 'halton'
         if image is not None:
-            self.set_image(image)
+            self._set_image(image)
 
         self.time_structure = None
         self.time_resolution = 10e-15
@@ -77,7 +77,7 @@ class DensityMapNaive(object):
                                       491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593,
                                       599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659])
 
-    def set_image(self, image):
+    def _set_image(self, image):
         """
         Set the internal density map image. The image will be normalized.
 
@@ -89,9 +89,9 @@ class DensityMapNaive(object):
 
         max_p = pic.max()
         self.image = pic/max_p
-        self.generate_x_cdf()
+        self._generate_x_cdf()
 
-    def set_momentum_image(self, image):
+    def _set_momentum_image(self, image):
         """
         Set the internal density map momentum image. The image will be normalized.
 
@@ -101,7 +101,7 @@ class DensityMapNaive(object):
         self.momentum_size = image.shape
         max_p = image.max()
         self.momentum_image = image / max_p
-        self.generate_p_cdf()
+        self._generate_p_cdf()
 
     def set_transverse_gaussian(self, sigma, pixel_resolution, image_size=200):
         """ Generate a gaussian image for use as an electron distribution
@@ -117,7 +117,7 @@ class DensityMapNaive(object):
         y = np.exp(-(x/np.double(sigma))**2)
         self.image_pixel_resolution = pixel_resolution
         image = np.outer(y, y)
-        self.set_image(image)
+        self._set_image(image)
 
     def set_transverse_tophat(self, radius, size):
         """
@@ -134,12 +134,12 @@ class DensityMapNaive(object):
         xm, ym = np.meshgrid(x, y)
         good_ind = xm**2 + ym**2 < radius**2
         image[good_ind] = 1
-        self.set_image(image)
+        self._set_image(image)
 
     def set_transverse_image(self, image, pixel_resolution):
         logger.info("Setting transverse image: resolution={0}".format(pixel_resolution))
         self.image_pixel_resolution = pixel_resolution
-        self.set_image(image)
+        self._set_image(image)
 
     def set_time_uniform(self, time_duration, time_resolution):
         logger.info("Setting uniform time distribution: duration={0}, time resolution={1}".format(time_duration,
@@ -152,7 +152,7 @@ class DensityMapNaive(object):
         self.time_structure = np.ones_like(self.t)
         self.time_structure[0:nt_rise] = np.linspace(0, 1, nt_rise)
         self.time_structure[nt-nt_rise:] = np.linspace(1, 0, nt_rise)
-        self.generate_t_cdf()
+        self._generate_t_cdf()
 
     def set_time_gaussian(self, sigma, time_window, time_resolution=10e-15):
         logger.info("Setting gaussian time distribution: sigma={0}, "
@@ -160,14 +160,14 @@ class DensityMapNaive(object):
         self.time_resolution = time_resolution
         self.t = np.arange(-time_window/2, time_window, time_resolution)
         self.time_structure = np.exp(-self.t**2 / sigma**2)
-        self.generate_t_cdf()
+        self._generate_t_cdf()
 
     def set_time_structure(self, time_structure, time_resolution=10e-15):
         logger.info("Setting arbitrary time structure: time resolution={0}".format(time_resolution))
         self.time_resolution = time_resolution
         self.time_structure = time_structure
         self.t = time_resolution * (np.arange(0, time_structure.shape[0]) - time_structure.shape[0]/2)
-        self.generate_t_cdf()
+        self._generate_t_cdf()
 
     def set_momentum_fermi_dirac(self, E_photon, phi_work=4.31, schottky_field=None):
         """
@@ -234,19 +234,19 @@ class DensityMapNaive(object):
         y = np.exp(-(x / np.double(sigma)) ** 2)
         self.momentum_image_pixel_resolution = pixel_resolution
         image = np.outer(y, y)
-        self.set_momentum_image(image)
+        self._set_momentum_image(image)
 
     def set_energy_gaussian(self, sigma, energy_window, energy_resolution=10e-15):
         self.energy_resolution = energy_resolution
         self.energies = np.arange(-energy_window/2, energy_window, energy_resolution)
         self.energy_structure = np.exp(-self.energies**2 / sigma**2)
-        self.generate_energy_cdf()
+        self._generate_energy_cdf()
 
     def set_charge(self, charge):
         logger.info("Setting total beam charge: {0} pC".format(charge*1e12))
         self.charge = charge
 
-    def generate_x_cdf(self):
+    def _generate_x_cdf(self):
         """
         Generate the cumulative distribution function from the stored image.
         :return:
@@ -259,7 +259,7 @@ class DensityMapNaive(object):
         x = np.arange(self.F1.shape[0])
         self.F1_interp = interp1d(x, self.F1)
 
-    def generate_p_cdf(self):
+    def _generate_p_cdf(self):
         """
         Generate the cumulative distribution function from the stored momentum image.
         :return:
@@ -272,17 +272,17 @@ class DensityMapNaive(object):
         x = np.arange(self.momentum_F1.shape[0])
         self.momentum_F1_interp = interp1d(x, self.momentum_F1)
 
-    def generate_t_cdf(self):
+    def _generate_t_cdf(self):
         self.t_cdf = self.time_structure.cumsum()
         self.t_cdf /= self.t_cdf.max()
         self.t_int = interp1d(self.t_cdf, self.t, fill_value='extrapolate')
 
-    def generate_energy_cdf(self):
+    def _generate_energy_cdf(self):
         self.energy_cdf = self.energy_structure.cumsum()
         self.energy_cdf /= self.energy_cdf.max()
         self.energy_int = interp1d(self.energy_cdf, self.energies, fill_value='extrapolate')
 
-    def sample_cdf(self, x):
+    def _sample_cdf(self, x):
         xi_1 = (self.F1 >= x[0]).searchsorted(True)
         F2 = self.image[xi_1, :].cumsum()
         xi_2 = (F2 / F2.max() >= x[1]).searchsorted(True)
@@ -580,6 +580,13 @@ class DensityMapNaive(object):
         return particles[:, 1:]
 
     def generate_particles_6d_cdf(self, n_particles):
+        """
+        Generate n_particles worth of 6D distribution using cumulative density functions for transverse spatial,
+        time, transverse momentum, and energy. These cdf:s are created when set_xxx functions are called.
+        
+        :param n_particles: Number of particles to generate
+        :return: Particle distribution as np.array of size [n_particles, 6]
+        """
         n_rem = n_particles
         particles = np.zeros((6, 1))
         start = 0
