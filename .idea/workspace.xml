@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70fc96b1-a189-45cc-aeab-c05ed73940f1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/densitymap_naive.py" beforeDir="false" afterPath="$PROJECT_DIR$/densitymap_naive.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/densitymap_naive.py" beforeDir="false" afterPath="$PROJECT_DIR$/densitymap.py" afterDir="false" />
     </list>
     <ignored path="densitymap.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -21,10 +22,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/densitymap_naive.py">
+        <entry file="file://$PROJECT_DIR$/densitymap.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-456">
-              <caret line="585" column="8" selection-start-line="585" selection-start-column="8" selection-end-line="585" selection-end-column="8" />
+            <state relative-caret-position="-10343">
+              <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
               <folding>
                 <element signature="e#55#73#0" expanded="true" />
               </folding>
@@ -43,6 +44,11 @@
       </file>
     </leaf>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>lhs</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -51,6 +57,7 @@
       <list>
         <option value="$PROJECT_DIR$/../astra/src/PyAstra.py" />
         <option value="$PROJECT_DIR$/densitymap_naive.py" />
+        <option value="$PROJECT_DIR$/densitymap.py" />
       </list>
     </option>
   </component>
@@ -65,7 +72,17 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="densitymap" type="b2602c69:ProjectViewProjectNode" />
+              <item name="densitymap" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
     </panes>
   </component>
@@ -125,10 +142,10 @@
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.16435507" />
-      <window_info id="Structure" order="1" visible="true" weight="0.24965326" />
+      <window_info active="true" id="Structure" order="1" visible="true" weight="0.24965326" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32941177" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32941177" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -160,10 +177,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/densitymap_naive.py">
+    <entry file="file://$PROJECT_DIR$/densitymap.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-456">
-          <caret line="585" column="8" selection-start-line="585" selection-start-column="8" selection-end-line="585" selection-end-column="8" />
+        <state relative-caret-position="-10343">
+          <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
           <folding>
             <element signature="e#55#73#0" expanded="true" />
           </folding>

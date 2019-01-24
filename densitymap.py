@@ -23,7 +23,7 @@ logger.addHandler(fh)
 logger.setLevel(logging.DEBUG)
 
 
-class DensityMapNaive(object):
+class DensityMap(object):
     def __init__(self, image=None):
         self.image = None
         self.image_pixel_resolution = 30e-6
@@ -583,7 +583,7 @@ class DensityMapNaive(object):
         """
         Generate n_particles worth of 6D distribution using cumulative density functions for transverse spatial,
         time, transverse momentum, and energy. These cdf:s are created when set_xxx functions are called.
-        
+
         :param n_particles: Number of particles to generate
         :return: Particle distribution as np.array of size [n_particles, 6]
         """
@@ -646,7 +646,7 @@ class DensityMapNaive(object):
 
 
 if __name__ == '__main__':
-    dm = DensityMapNaive()
+    dm = DensityMap()
     dm.set_transverse_gaussian(1.0e-3, 20e-6)
     dm.set_momentum_fermi_dirac(4.71, 4.46, 0)
     n = 200000
