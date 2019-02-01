@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70fc96b1-a189-45cc-aeab-c05ed73940f1" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/Fermi-Dirac_gen.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/densitymap_naive.py" beforeDir="false" afterPath="$PROJECT_DIR$/densitymap.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/densitymap.py" beforeDir="false" afterPath="$PROJECT_DIR$/densitymap.py" afterDir="false" />
     </list>
     <ignored path="densitymap.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -21,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/densitymap.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Fermi-Dirac_gen.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-10343">
-              <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
+            <state relative-caret-position="573">
+              <caret line="248" column="16" selection-start-line="231" selection-start-column="8" selection-end-line="248" selection-end-column="16" />
               <folding>
                 <element signature="e#55#73#0" expanded="true" />
               </folding>
@@ -42,7 +43,26 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/densitymap.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="386">
+              <caret line="384" column="52" selection-start-line="384" selection-start-column="52" selection-end-line="384" selection-end-column="52" />
+              <folding>
+                <element signature="e#55#73#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -57,14 +77,15 @@
       <list>
         <option value="$PROJECT_DIR$/../astra/src/PyAstra.py" />
         <option value="$PROJECT_DIR$/densitymap_naive.py" />
+        <option value="$PROJECT_DIR$/Fermi-Dirac_gen.py" />
         <option value="$PROJECT_DIR$/densitymap.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1927" />
-    <option name="width" value="1480" />
-    <option name="height" value="1153" />
+    <option name="x" value="-1709" />
+    <option name="width" value="1466" />
+    <option name="height" value="1167" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -138,14 +159,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1927" y="0" width="1480" height="1153" extended-state="0" />
+    <frame x="-1709" y="0" width="1466" height="1167" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.16435507" />
-      <window_info active="true" id="Structure" order="1" visible="true" weight="0.24965326" />
+      <window_info active="true" id="Structure" order="1" visible="true" weight="0.25210086" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32941177" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.22727273" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -177,10 +198,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Fermi-Dirac_gen.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="573">
+          <caret line="248" column="16" selection-start-line="231" selection-start-column="8" selection-end-line="248" selection-end-column="16" />
+          <folding>
+            <element signature="e#55#73#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/densitymap.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-10343">
-          <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
+        <state relative-caret-position="386">
+          <caret line="384" column="52" selection-start-line="384" selection-start-column="52" selection-end-line="384" selection-end-column="52" />
           <folding>
             <element signature="e#55#73#0" expanded="true" />
           </folding>
