@@ -452,23 +452,25 @@ class DensityMap(object):
 
         # particles = np.hstack((x, t, px, energy))
         particles = np.hstack((x, t, p))
+        particles = particles[~np.isnan(particles[:, 1])]
         return particles
 
     def save_astra_distribution(self, filename, n_part):
         logger.info("Saving {0} particle distribution to {1}".format(n_part, filename))
-        p = self.generate_particles_6d(n_part)
-        p_astra = np.zeros((n_part, 10))
+        n = np.int(n_part)
+        p = self.generate_particles_6d(n)
+        p_astra = np.zeros((p.shape[0], 10))
         p_astra[:, 0:2] = p[:, 0:2]         # Transverse data. z=0 for particles generated at cathode.
         p_astra[:, 3:6] = p[:, 3:6]         # Momentum data
         p_astra[:, 6] = p[:, 2] * 1e9       # Time data in ns
-        p_astra[:, 7] = self.charge / n_part * 1e9    # Charge per particle in nC
+        p_astra[:, 7] = self.charge / n * 1e9    # Charge per particle in nC
         p_astra[:, 8] = 1                   # Particle index: electrons
         p_astra[:, 9] = -1                  # Status flag: standard particle
         # Reference particle:
         p_astra[0, 0:3] = np.array([0.0, 0.0, 0.0])
         p_astra[0, 3:6] = np.array([0.0, 0.0, 0.0])
         p_astra[0, 6] = 0.0
-        p_astra[0, 7] = self.charge / n_part
+        p_astra[0, 7] = self.charge / n
         p_astra[0, 8] = 1
         p_astra[0, 9] = -1
 
@@ -611,7 +613,7 @@ if __name__ == '__main__':
     dm.set_transverse_gaussian(1.0e-3, 20e-6)
     dm.set_transverse_momentum_gaussian(50, 1, 200)
     dm.set_energy_gaussian(0.2, 0.5, 1.0, 0.001)
-    n = 200000
+    n = 500e3
     t0 = time.time()
     dm.gen = 'halton'
     p = dm.generate_particles_6d(n)
@@ -624,4 +626,15 @@ if __name__ == '__main__':
     t0 = time.time()
     pim = dm.generate_particles_6d(n)
     logging.info('Generated {0} particles in {1} s'.format(n, time.time() - t0))
-    dm.save_astra_distribution("image_gen.ini", n)
+    dm.save_astra_distribution("diffuser_0p15deg_500mm_lens_1-1imaging_iris_closed_cal18p5um_0_crop_500k_particles.ini", n)
+
+    from scipy.signal import medfilt2d
+    picvc2 = imread("vc2_190124.png")[270:390, 580:700, 0]
+    pic2 = picvc2 * (medfilt2d(picvc2, 3) > 0.01)
+    dm.set_transverse_image(pic2, 29e-6)
+    dm.save_astra_distribution("vc_190124_250k.ini", 250e3)
+
+    picvc = imread("vc_190509.png")[131:215, 275:355]
+    pic = picvc * (medfilt2d(picvc, 3) > 0)
+    dm.set_transverse_image(pic, 29e-6)
+    dm.save_astra_distribution("vc_190509_250k.ini", 250e3)

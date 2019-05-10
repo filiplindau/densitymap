@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70fc96b1-a189-45cc-aeab-c05ed73940f1" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/Fermi-Dirac_gen.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/densitymap.py" beforeDir="false" afterPath="$PROJECT_DIR$/densitymap.py" afterDir="false" />
     </list>
@@ -25,8 +24,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Fermi-Dirac_gen.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="573">
-              <caret line="248" column="16" selection-start-line="231" selection-start-column="8" selection-end-line="248" selection-end-column="16" />
+            <state relative-caret-position="199">
+              <caret line="152" column="8" selection-start-line="152" selection-start-column="8" selection-end-line="152" selection-end-column="8" />
               <folding>
                 <element signature="e#55#73#0" expanded="true" />
               </folding>
@@ -37,7 +36,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../astra/src/PyAstra.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="876">
+            <state relative-caret-position="952">
               <caret line="453" column="8" selection-start-line="453" selection-start-column="8" selection-end-line="454" selection-end-column="56" />
             </state>
           </provider>
@@ -46,8 +45,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/densitymap.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="384" column="52" selection-start-line="384" selection-start-column="52" selection-end-line="384" selection-end-column="52" />
+            <state relative-caret-position="753">
+              <caret line="454" column="53" selection-start-line="454" selection-start-column="53" selection-end-line="454" selection-end-column="53" />
               <folding>
                 <element signature="e#55#73#0" expanded="true" />
               </folding>
@@ -83,7 +82,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1709" />
+    <option name="x" value="127" />
+    <option name="y" value="4" />
     <option name="width" value="1466" />
     <option name="height" value="1167" />
   </component>
@@ -159,7 +159,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1709" y="0" width="1466" height="1167" extended-state="0" />
+    <frame x="127" y="4" width="1466" height="1167" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.16435507" />
@@ -191,27 +191,27 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../astra/src/PyAstra.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="876">
-          <caret line="453" column="8" selection-start-line="453" selection-start-column="8" selection-end-line="454" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Fermi-Dirac_gen.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="573">
-          <caret line="248" column="16" selection-start-line="231" selection-start-column="8" selection-end-line="248" selection-end-column="16" />
+        <state relative-caret-position="199">
+          <caret line="152" column="8" selection-start-line="152" selection-start-column="8" selection-end-line="152" selection-end-column="8" />
           <folding>
             <element signature="e#55#73#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../astra/src/PyAstra.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="952">
+          <caret line="453" column="8" selection-start-line="453" selection-start-column="8" selection-end-line="454" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/densitymap.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="384" column="52" selection-start-line="384" selection-start-column="52" selection-end-line="384" selection-end-column="52" />
+        <state relative-caret-position="753">
+          <caret line="454" column="53" selection-start-line="454" selection-start-column="53" selection-end-line="454" selection-end-column="53" />
           <folding>
             <element signature="e#55#73#0" expanded="true" />
           </folding>
